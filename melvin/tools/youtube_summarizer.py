@@ -1,12 +1,12 @@
-from llama_index import (
+from llama_index.core import (
     VectorStoreIndex,
     ServiceContext,
     Document
 )
-from llama_index.llms import LlamaCPP
-from llama_index.text_splitter import TokenTextSplitter
+from llama_index.llms.llama_cpp import LlamaCPP
+from llama_index.core.node_parser import TokenTextSplitter
 from llama_index.readers.youtube_transcript import YoutubeTranscriptReader
-from llama_index.readers.youtube_metadata import YoutubeMetaData
+from llama_index.readers.youtube_metadata import YouTubeMetaData
 import os
 import json
 from typing import Optional
@@ -14,7 +14,7 @@ from typing import Optional
 class YouTubeSummarizer:
     def __init__(
         self,
-        model_path: str = "models/llama-2-7b-chat.gguf",
+        model_path: str = "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q6_K.gguf",
         chunk_size: int = 1024,
         chunk_overlap: int = 20,
         api_key: str = "your_youtube_api_key"
@@ -54,7 +54,7 @@ class YouTubeSummarizer:
         
         # Initialize YouTube transcript and metadata readers
         self.yt_transcript_reader = YoutubeTranscriptReader(api_key=api_key)
-        self.yt_metadata_reader = YoutubeMetaData(api_key=api_key)
+        self.yt_metadata_reader = YouTubeMetaData(api_key=api_key)
 
     def create_index(self, text: str) -> VectorStoreIndex:
         """Create a vector store index from the text"""
